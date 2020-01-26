@@ -44,6 +44,30 @@ class User extends Authenticatable
 
     public function hasAnyRole($roles)
     {
-        return  $roles->intersect($this->roles)->count();
+        if(is_array($roles) || is_object($roles)){
+            return  $roles->intersect($this->roles)->count();
+        }
+
+        return $this->roles->contains('name', $roles);
+
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->hasAnyRole('Admin');
+    }
+
+    public function addRole(Role $role)
+    {
+        if($this->hasAnyRole($role->name)){
+            return;
+        }
+
+        return $this->roles()->attach($role);
+    }
+
+    public function removeRole(Role $role)
+    {
+        return $this->roles()->detach($role);
     }
 }

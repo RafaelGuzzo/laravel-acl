@@ -58,7 +58,6 @@
     </column>
     <index id="21" parent="7" name="password_resets_email_index">
       <ColNames>email</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <column id="22" parent="8" name="id">
       <Position>1</Position>
@@ -217,7 +216,6 @@
     </column>
     <index id="55" parent="13" name="users_email_unique">
       <ColNames>email</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="56" parent="13">

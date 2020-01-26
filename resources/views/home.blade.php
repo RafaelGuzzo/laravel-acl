@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                        <div class="links">
+                            <a class="btn btn-outline-primary" href="{{ route('usuarios.index') }}" role="button">Usuários</a>
+                            <a class="btn btn-outline-primary" href="{{ route('roles.index') }}" role="button">Perfis</a>
+                            <a class="btn btn-outline-primary" href="#" role="button">Permissões</a>
+                        </div>
                 </div>
             </div>
         </div>

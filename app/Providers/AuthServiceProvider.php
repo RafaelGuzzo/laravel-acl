@@ -6,6 +6,7 @@ use App\Permission;
 use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,12 +27,22 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        $permissions = Permission::with('roles')->get();
+        if (Schema::hasTable('permissions')) {
 
-        foreach ($permissions as $permission) {
-            Gate::define($permission->name, function (User $user) use ($permission){
-                return $user->hasAnyRole($permission->roles);
+            Gate::before(function ($user){
+                if($user->isSuperAdmin()){
+                    return true;
+                }
             });
+
+            $permissions = Permission::with('roles')->get();
+
+            foreach ($permissions as $permission) {
+                Gate::define($permission->name, function (User $user) use ($permission) {
+                    return $user->hasAnyRole($permission->roles);
+                });
+            }
         }
+
     }
 }
